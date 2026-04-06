@@ -14,22 +14,27 @@ const CONTENT = {
   },
   hero: {
     label: {
-      ru: "Автономные Мобильные Системы",
-      en: "Autonomous Mobile Systems",
-      hy: "Ինքնավար Շարժական Համակարգեր",
+      ru: "AI Platform · Autonomous Mobile Systems",
+      en: "AI Platform · Autonomous Mobile Systems",
+      hy: "AI Platform · Ինքնավար Շարժական Համակարգեր",
     },
     headline: {
-      ru: "Интеграция ИИ в бизнес. Автономные системы, которые работают вместо людей.",
-      en: "AI integration into business. Autonomous systems that work instead of people.",
-      hy: "Բիզնեսում ԱԲ ինտեգրում։ Ինքնավար համակարգեր, որոնք աշխատում են մարդկանց փոխարեն։",
+      ru: "AI работает.\nВы зарабатываете.",
+      en: "AI works.\nYou earn.",
+      hy: "ԱԲ-ն աշխատում է.\nԴուք վաստակում եք:",
+    },
+    sub: {
+      ru: "Сокращаем затраты до 40% — автономные AI-консультанты под ваш бизнес",
+      en: "Cut costs up to 40% — autonomous AI consultants built for your business",
+      hy: "Ծախսերի կրճատում մինչև 40% — ինքնավար ԱԲ խորհրդատուներ ձեր բիզնեսի համար",
     },
     desc: {
-      ru: "Создаём AI-консультантов, обучаем модели и внедряем системы, которые снижают расходы и увеличивают прибыль.",
-      en: "We build AI consultants, train models, and implement systems that reduce costs and increase profit.",
-      hy: "Մենք ստեղծում ենք ԱԲ խորհրդատուներ, ուսուցանում մոդելներ և ներդնում համակարգեր, որոնք նվազեցնում են ծախսերը և մեծացնում շահույթը։",
+      ru: "Платформа для создания AI-ассистентов. Локально. Без утечек. Без лишних сотрудников.",
+      en: "Platform for AI assistants. Local. Secure. No extra headcount.",
+      hy: "Հարթակ ԱԲ օգնականների համար։ Տեղային։ Անվտանգ։ Առանց լրացուցիչ անձնակազմի։",
     },
-    cta: { ru: "Получить консультацию", en: "Get a Consultation", hy: "Ստանալ խորհրդատվություն" },
-    ctaSub: { ru: "Узнать больше", en: "Learn more", hy: "Իմանալ ավելին" },
+    cta: { ru: "Обсудить внедрение", en: "Start a Project", hy: "Քննարկել ներդրումը" },
+    ctaSub: { ru: "Как это работает", en: "How it works", hy: "Ինչպես է աշխատում" },
   },
   about: {
     label: { ru: "О компании", en: "About", hy: "Մեր մասին" },
@@ -262,7 +267,10 @@ function NavBar({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void }) {
       <div className="ams-nav-inner">
         <a href="#" className="ams-logo">
           <span className="logo-mark">▲</span>
-          <span className="logo-text">AMS</span>
+          <div className="logo-group">
+            <span className="logo-text">AMS</span>
+            <span className="logo-sub">AI Systems</span>
+          </div>
         </a>
         <div className="ams-nav-links">
           {CONTENT.nav.links.map((l, i) => (
@@ -309,32 +317,40 @@ export default function Index() {
           <Reveal delay={0}>
             <div className="hero-label"><T t={CONTENT.hero.label} lang={lang} /></div>
           </Reveal>
-          <Reveal delay={120}>
-            <h1 className="hero-title"><T t={CONTENT.hero.headline} lang={lang} /></h1>
+          <Reveal delay={100}>
+            <h1 className="hero-title">
+              {CONTENT.hero.headline[lang].split("\n").map((line, i) => (
+                <span key={i} className={i === 0 ? "hero-h1-main" : "hero-h1-accent"}>
+                  {line}
+                  {i === 0 && <br />}
+                </span>
+              ))}
+            </h1>
           </Reveal>
-          <Reveal delay={240}>
-            <div className="hero-desc">
-              <p><T t={CONTENT.hero.desc} lang={lang} /></p>
-            </div>
+          <Reveal delay={200}>
+            <p className="hero-sub"><T t={CONTENT.hero.sub} lang={lang} /></p>
           </Reveal>
-          <Reveal delay={360}>
+          <Reveal delay={300}>
+            <p className="hero-desc-line"><T t={CONTENT.hero.desc} lang={lang} /></p>
+          </Reveal>
+          <Reveal delay={420}>
             <div className="hero-actions">
-              <a href="#cta" className="btn-primary">
+              <a href="#cta" className="btn-hero-cta">
                 <T t={CONTENT.hero.cta} lang={lang} />
                 <span className="btn-arrow">→</span>
               </a>
-              <a href="#section-1" className="btn-ghost">
+              <a href="#section-3" className="btn-ghost">
                 <T t={CONTENT.hero.ctaSub} lang={lang} />
               </a>
             </div>
           </Reveal>
-          <Reveal delay={480}>
+          <Reveal delay={560}>
             <div className="hero-stats">
-              <div className="stat"><span className="stat-num">100%</span><span className="stat-label">Local</span></div>
+              <div className="stat"><span className="stat-num">—40%</span><span className="stat-label">{lang === "ru" ? "Снижение затрат" : lang === "en" ? "Cost reduction" : "Ծախսերի կրճատում"}</span></div>
               <div className="stat-div" />
-              <div className="stat"><span className="stat-num">0</span><span className="stat-label">Data leaks</span></div>
+              <div className="stat"><span className="stat-num">24/7</span><span className="stat-label">{lang === "ru" ? "Автономная работа" : lang === "en" ? "Autonomous ops" : "Ինքնավար աշխատանք"}</span></div>
               <div className="stat-div" />
-              <div className="stat"><span className="stat-num">24/7</span><span className="stat-label">Autonomous</span></div>
+              <div className="stat"><span className="stat-num">0</span><span className="stat-label">{lang === "ru" ? "Утечек данных" : lang === "en" ? "Data leaks" : "Տվյալների արտահոսք"}</span></div>
             </div>
           </Reveal>
         </div>
