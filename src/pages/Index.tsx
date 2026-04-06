@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 
+type Lang = "ru" | "en" | "hy";
+
 const CONTENT = {
   nav: {
-    logo: "AMS",
     links: [
       { ru: "О нас", en: "About", hy: "Մեր մասին" },
       { ru: "Услуги", en: "Services", hy: "Ծառայություններ" },
@@ -12,15 +13,15 @@ const CONTENT = {
     cta: { ru: "Связаться", en: "Contact", hy: "Կապ" },
   },
   hero: {
-    headline: {
-      ru: "Интеграция ИИ в бизнес.",
-      en: "AI integration into business.",
-      hy: "Բիզնեսում ԱԲ ինտեգրում։",
+    label: {
+      ru: "Автономные Мобильные Системы",
+      en: "Autonomous Mobile Systems",
+      hy: "Ինքնավար Շարժական Համակարգեր",
     },
-    subheadline: {
-      ru: "Автономные системы, которые работают вместо людей.",
-      en: "Autonomous systems that work instead of people.",
-      hy: "Ինքնավար համակարգեր, որոնք աշխատում են մարդկանց փոխարեն։",
+    headline: {
+      ru: "Интеграция ИИ в бизнес. Автономные системы, которые работают вместо людей.",
+      en: "AI integration into business. Autonomous systems that work instead of people.",
+      hy: "Բիզնեսում ԱԲ ինտեգրում։ Ինքնավար համակարգեր, որոնք աշխատում են մարդկանց փոխարեն։",
     },
     desc: {
       ru: "Создаём AI-консультантов, обучаем модели и внедряем системы, которые снижают расходы и увеличивают прибыль.",
@@ -28,6 +29,7 @@ const CONTENT = {
       hy: "Մենք ստեղծում ենք ԱԲ խորհրդատուներ, ուսուցանում մոդելներ և ներդնում համակարգեր, որոնք նվազեցնում են ծախսերը և մեծացնում շահույթը։",
     },
     cta: { ru: "Получить консультацию", en: "Get a Consultation", hy: "Ստանալ խորհրդատվություն" },
+    ctaSub: { ru: "Узнать больше", en: "Learn more", hy: "Իմանալ ավելին" },
   },
   about: {
     label: { ru: "О компании", en: "About", hy: "Մեր մասին" },
@@ -39,30 +41,30 @@ const CONTENT = {
     items: [
       {
         icon: "◈",
-        ru: "Без облаков",
-        en: "Offline",
-        hy: "Առանց ամպային ծառայությունների",
-        descRu: "Системы работают локально — без зависимости от третьих сторон.",
-        descEn: "Systems run locally — no third-party dependency.",
-        descHy: "Համակարգերը աշխատում են տեղում՝ առանց կախվածության երրորդ կողմերից։",
+        title: { ru: "Без облаков", en: "Offline", hy: "Առանց ամպային ծառայությունների" },
+        desc: {
+          ru: "Системы работают локально — без зависимости от третьих сторон.",
+          en: "Systems run locally — no third-party dependency.",
+          hy: "Համակարգերը աշխատում են տեղում՝ առանց կախվածության երրորդ կողմերից։",
+        },
       },
       {
         icon: "◉",
-        ru: "Безопасность",
-        en: "Secure",
-        hy: "Անվտանգ",
-        descRu: "Ваши данные остаются у вас. Никакой утечки информации.",
-        descEn: "Your data stays with you. Zero information leakage.",
-        descHy: "Ձեր տվյալները մնում են ձեզ մոտ։ Տեղեկատվության արտահոսք չկա։",
+        title: { ru: "Безопасность", en: "Secure", hy: "Անվտանգ" },
+        desc: {
+          ru: "Ваши данные остаются у вас. Никакой утечки информации.",
+          en: "Your data stays with you. Zero information leakage.",
+          hy: "Ձեր տվյալները մնում են ձեզ մոտ։ Տեղեկատվության արտահոսք չկա։",
+        },
       },
       {
         icon: "◎",
-        ru: "Полностью локально",
-        en: "Fully local",
-        hy: "Ամբողջությամբ տեղային",
-        descRu: "Развёртывание на вашей инфраструктуре без компромиссов.",
-        descEn: "Deployed on your infrastructure without compromise.",
-        descHy: "Տեղակայում ձեր ենթակառուցվածքի վրա՝ առանց կոմպրոմիսների։",
+        title: { ru: "Полностью локально", en: "Fully local", hy: "Ամբողջությամբ տեղային" },
+        desc: {
+          ru: "Развёртывание на вашей инфраструктуре без компромиссов.",
+          en: "Deployed on your infrastructure without compromise.",
+          hy: "Տեղակայում ձեր ենթակառուցվածքի վրա՝ առանց կոմպրոմիսների։",
+        },
       },
     ],
   },
@@ -72,30 +74,30 @@ const CONTENT = {
     items: [
       {
         num: "01",
-        ru: "Интеграция AI",
-        en: "AI Integration",
-        hy: "ԱԲ ինտեգրացիա",
-        descRu: "Автоматизация бизнес-процессов. Снижение операционных издержек.",
-        descEn: "Business process automation. Reduced operational costs.",
-        descHy: "Բիզնես գործընթացների ավտոմատացում։ Գործառնական ծախսերի կրճատում։",
+        title: { ru: "Интеграция AI", en: "AI Integration", hy: "ԱԲ ինտեգրացիա" },
+        desc: {
+          ru: "Автоматизация бизнес-процессов. Снижение операционных издержек.",
+          en: "Business process automation. Reduced operational costs.",
+          hy: "Բիզնես գործընթացների ավտոմատացում։ Գործառնական ծախսերի կրճատում։",
+        },
       },
       {
         num: "02",
-        ru: "AI-консультанты",
-        en: "AI Consultants",
-        hy: "ԱԲ խորհրդատուներ",
-        descRu: "Обучение под вашу нишу. Знают продукт, клиентов и процессы.",
-        descEn: "Domain-trained assistants. Know your product, clients, processes.",
-        descHy: "Ուսուցում ձեր ոլորտի համար։ Գիտեն ձեր ապրանքը, հաճախորդներին, գործընթացները։",
+        title: { ru: "AI-консультанты", en: "AI Consultants", hy: "ԱԲ խորհրդատուներ" },
+        desc: {
+          ru: "Обучение под вашу нишу. Знают продукт, клиентов и процессы.",
+          en: "Domain-trained assistants. Know your product, clients, processes.",
+          hy: "Ուսուցում ձեր ոլորտի համար։ Գիտեն ձեր ապրանքը, հաճախորդներին, գործընթացները։",
+        },
       },
       {
         num: "03",
-        ru: "Корпоративные модели",
-        en: "Enterprise AI Models",
-        hy: "Կորպորատիվ ԱԲ մոդելներ",
-        descRu: "Собственная модель под бизнес. Полный контроль над данными.",
-        descEn: "Custom model for your business. Full data ownership.",
-        descHy: "Հատուկ մոդել ձեր բիզնեսի համար։ Ամբողջական վերահսկողություն տվյալների նկատմամբ։",
+        title: { ru: "Корпоративные модели", en: "Enterprise AI Models", hy: "Կորպորատիվ ԱԲ մոդելներ" },
+        desc: {
+          ru: "Собственная модель под бизнес. Полный контроль над данными.",
+          en: "Custom model for your business. Full data ownership.",
+          hy: "Հատուկ մոդել ձեր բիզնեսի համար։ Ամբողջական վերահսկողություն տվյալների նկատմամբ։",
+        },
       },
     ],
   },
@@ -105,39 +107,39 @@ const CONTENT = {
     items: [
       {
         num: "1",
-        ru: "Анализ",
-        en: "Analysis",
-        hy: "Վերլուծություն",
-        descRu: "Изучаем ваши процессы и задачи",
-        descEn: "We study your processes and goals",
-        descHy: "Ուսումնասիրում ենք ձեր գործընթացները",
+        title: { ru: "Анализ", en: "Analysis", hy: "Վերլուծություն" },
+        desc: {
+          ru: "Изучаем ваши процессы и задачи",
+          en: "We study your processes and goals",
+          hy: "Ուսումնասիրում ենք ձեր գործընթացները",
+        },
       },
       {
         num: "2",
-        ru: "База знаний",
-        en: "Knowledge Base",
-        hy: "Գիտելիքների բազա",
-        descRu: "Формируем данные для обучения",
-        descEn: "We build training data structures",
-        descHy: "Կառուցում ենք ուսուցման տվյալների կառուցվածքները",
+        title: { ru: "База знаний", en: "Knowledge Base", hy: "Գիտելիքների բազա" },
+        desc: {
+          ru: "Формируем данные для обучения",
+          en: "We build training data structures",
+          hy: "Կառուցում ենք ուսուցման տվյալների կառուցվածքները",
+        },
       },
       {
         num: "3",
-        ru: "Настройка",
-        en: "Setup",
-        hy: "Կարգավորում",
-        descRu: "Настраиваем и тестируем систему",
-        descEn: "Configure and test the system",
-        descHy: "Կարգավորում և փորձարկում ենք համակարգը",
+        title: { ru: "Настройка", en: "Setup", hy: "Կարգավորում" },
+        desc: {
+          ru: "Настраиваем и тестируем систему",
+          en: "Configure and test the system",
+          hy: "Կարգավորում և փորձարկում ենք համակարգը",
+        },
       },
       {
         num: "4",
-        ru: "Запуск",
-        en: "Launch",
-        hy: "Գործարկում",
-        descRu: "Запускаем в работу, поддерживаем",
-        descEn: "Deploy into production, support",
-        descHy: "Գործարկում ենք, ապահովում ենք աջակցություն",
+        title: { ru: "Запуск", en: "Launch", hy: "Գործարկում" },
+        desc: {
+          ru: "Запускаем в работу, поддерживаем",
+          en: "Deploy into production, support",
+          hy: "Գործարկում ենք, ապահովում ենք աջակցություն",
+        },
       },
     ],
   },
@@ -146,28 +148,28 @@ const CONTENT = {
     title: { ru: "Почему выбирают нас", en: "Why Choose Us", hy: "Ինչու ընտրել մեզ" },
     items: [
       {
-        ru: "Автономность",
-        en: "Autonomy",
-        hy: "Ինքնավարություն",
-        descRu: "Системы работают без участия человека 24/7",
-        descEn: "Systems operate without human input 24/7",
-        descHy: "Համակարգերն աշխատում են 24/7 առանց մարդու մասնակցության",
+        title: { ru: "Автономность", en: "Autonomy", hy: "Ինքնավարություն" },
+        desc: {
+          ru: "Системы работают без участия человека 24/7",
+          en: "Systems operate without human input 24/7",
+          hy: "Համակարգերն աշխատում են 24/7 առանց մարդու մասնակցության",
+        },
       },
       {
-        ru: "Безопасность",
-        en: "Security",
-        hy: "Անվտանգություն",
-        descRu: "Данные не покидают вашу инфраструктуру",
-        descEn: "Data never leaves your infrastructure",
-        descHy: "Տվյալները երբեք չեն լքում ձեր ենթակառուցվածքը",
+        title: { ru: "Безопасность", en: "Security", hy: "Անվտանգություն" },
+        desc: {
+          ru: "Данные не покидают вашу инфраструктуру",
+          en: "Data never leaves your infrastructure",
+          hy: "Տվյալները երբեք չեն լքում ձեր ենթակառուցվածքը",
+        },
       },
       {
-        ru: "Масштабируемость",
-        en: "Scalability",
-        hy: "Մասշտաբայնություն",
-        descRu: "Растёт вместе с вашим бизнесом",
-        descEn: "Scales as your business grows",
-        descHy: "Աճում է ձեր բիզնեսի հետ",
+        title: { ru: "Масштабируемость", en: "Scalability", hy: "Մасштաbayunutyun" },
+        desc: {
+          ru: "Растёт вместе с вашим бизнесом",
+          en: "Scales as your business grows",
+          hy: "Աճում է ձեր բիզնեսի հետ",
+        },
       },
     ],
   },
@@ -178,10 +180,16 @@ const CONTENT = {
       en: "Leave a request — we'll analyze your task and propose a solution.",
       hy: "Թողեք հայտ — կվերլուծենք ձեր խնդիրը և կառաջարկենք լուծում։",
     },
+    namePlaceholder: { ru: "Ваше имя", en: "Your name", hy: "Ձեր անունը" },
+    phonePlaceholder: { ru: "Телефон", en: "Phone", hy: "Հեռախոս" },
     btn: { ru: "Связаться", en: "Contact Us", hy: "Կապ հաստատել" },
   },
   footer: {
-    copy: "© 2026 Автономные Мобильные Системы",
+    copy: {
+      ru: "© 2026 Автономные Мобильные Системы",
+      en: "© 2026 Autonomous Mobile Systems",
+      hy: "© 2026 Ինքնավար Շարժական Համակարգեր",
+    },
   },
 };
 
@@ -192,7 +200,9 @@ function useIntersect(threshold = 0.15) {
     const el = ref.current;
     if (!el) return;
     const obs = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { setVisible(true); obs.disconnect(); } },
+      ([entry]) => {
+        if (entry.isIntersecting) { setVisible(true); obs.disconnect(); }
+      },
       { threshold }
     );
     obs.observe(el);
@@ -209,8 +219,8 @@ function Reveal({ children, delay = 0, className = "" }: { children: React.React
       className={className}
       style={{
         opacity: visible ? 1 : 0,
-        transform: visible ? "translateY(0)" : "translateY(32px)",
-        transition: `opacity 0.7s ease ${delay}ms, transform 0.7s ease ${delay}ms`,
+        transform: visible ? "translateY(0)" : "translateY(28px)",
+        transition: `opacity 0.65s ease ${delay}ms, transform 0.65s ease ${delay}ms`,
       }}
     >
       {children}
@@ -218,19 +228,27 @@ function Reveal({ children, delay = 0, className = "" }: { children: React.React
   );
 }
 
-function TriLang({ text }: { text: { ru: string; en: string; hy: string } }) {
+function T({ t, lang }: { t: Record<Lang, string>; lang: Lang }) {
+  return <>{t[lang]}</>;
+}
+
+function LangSwitcher({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void }) {
   return (
-    <span className="tri-lang">
-      <span className="lang-ru">{text.ru}</span>
-      <span className="lang-sep"> / </span>
-      <span className="lang-en">{text.en}</span>
-      <span className="lang-sep"> / </span>
-      <span className="lang-hy">{text.hy}</span>
-    </span>
+    <div className="lang-switcher">
+      {(["ru", "en", "hy"] as Lang[]).map((code) => (
+        <button
+          key={code}
+          className={`lang-btn${lang === code ? " active" : ""}`}
+          onClick={() => setLang(code)}
+        >
+          {code.toUpperCase()}
+        </button>
+      ))}
+    </div>
   );
 }
 
-function NavBar() {
+function NavBar({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   useEffect(() => {
@@ -249,11 +267,12 @@ function NavBar() {
         <div className="ams-nav-links">
           {CONTENT.nav.links.map((l, i) => (
             <a key={i} href={`#section-${i}`} className="nav-link">
-              <span>{l.ru}</span>
+              <T t={l} lang={lang} />
             </a>
           ))}
         </div>
-        <a href="#cta" className="ams-nav-cta">{CONTENT.nav.cta.ru}</a>
+        <LangSwitcher lang={lang} setLang={setLang} />
+        <a href="#cta" className="ams-nav-cta"><T t={CONTENT.nav.cta} lang={lang} /></a>
         <button className="ams-burger" onClick={() => setOpen(!open)} aria-label="Menu">
           <span /><span /><span />
         </button>
@@ -262,10 +281,13 @@ function NavBar() {
         <div className="ams-mobile-menu">
           {CONTENT.nav.links.map((l, i) => (
             <a key={i} href={`#section-${i}`} className="nav-link-mobile" onClick={() => setOpen(false)}>
-              {l.ru} / {l.en}
+              <T t={l} lang={lang} />
             </a>
           ))}
-          <a href="#cta" className="ams-nav-cta mt-4" onClick={() => setOpen(false)}>{CONTENT.nav.cta.ru}</a>
+          <LangSwitcher lang={lang} setLang={setLang} />
+          <a href="#cta" className="ams-nav-cta" style={{ marginTop: 8 }} onClick={() => setOpen(false)}>
+            <T t={CONTENT.nav.cta} lang={lang} />
+          </a>
         </div>
       )}
     </nav>
@@ -273,9 +295,11 @@ function NavBar() {
 }
 
 export default function Index() {
+  const [lang, setLang] = useState<Lang>("ru");
+
   return (
     <div className="ams-root">
-      <NavBar />
+      <NavBar lang={lang} setLang={setLang} />
 
       {/* HERO */}
       <section className="ams-hero" id="section-0">
@@ -283,45 +307,34 @@ export default function Index() {
         <div className="hero-glow" aria-hidden />
         <div className="ams-container hero-content">
           <Reveal delay={0}>
-            <div className="hero-label">Автономные Мобильные Системы</div>
+            <div className="hero-label"><T t={CONTENT.hero.label} lang={lang} /></div>
           </Reveal>
           <Reveal delay={120}>
-            <h1 className="hero-title">
-              <span className="block">{CONTENT.hero.headline.ru}</span>
-              <span className="block hero-title-en">{CONTENT.hero.headline.en}</span>
-              <span className="block hero-title-hy">{CONTENT.hero.headline.hy}</span>
-            </h1>
+            <h1 className="hero-title"><T t={CONTENT.hero.headline} lang={lang} /></h1>
           </Reveal>
           <Reveal delay={240}>
-            <div className="hero-sub">
-              <p>{CONTENT.hero.subheadline.ru}</p>
-              <p className="muted">{CONTENT.hero.subheadline.en}</p>
-              <p className="muted">{CONTENT.hero.subheadline.hy}</p>
+            <div className="hero-desc">
+              <p><T t={CONTENT.hero.desc} lang={lang} /></p>
             </div>
           </Reveal>
           <Reveal delay={360}>
-            <div className="hero-desc">
-              <p>{CONTENT.hero.desc.ru}</p>
-            </div>
-          </Reveal>
-          <Reveal delay={480}>
             <div className="hero-actions">
               <a href="#cta" className="btn-primary">
-                {CONTENT.hero.cta.ru}
+                <T t={CONTENT.hero.cta} lang={lang} />
                 <span className="btn-arrow">→</span>
               </a>
               <a href="#section-1" className="btn-ghost">
-                {CONTENT.hero.cta.en}
+                <T t={CONTENT.hero.ctaSub} lang={lang} />
               </a>
             </div>
           </Reveal>
-          <Reveal delay={600}>
+          <Reveal delay={480}>
             <div className="hero-stats">
-              <div className="stat"><span className="stat-num">100%</span><span className="stat-label">Local / Локально</span></div>
+              <div className="stat"><span className="stat-num">100%</span><span className="stat-label">Local</span></div>
               <div className="stat-div" />
-              <div className="stat"><span className="stat-num">0</span><span className="stat-label">Data leaks / Утечек</span></div>
+              <div className="stat"><span className="stat-num">0</span><span className="stat-label">Data leaks</span></div>
               <div className="stat-div" />
-              <div className="stat"><span className="stat-num">24/7</span><span className="stat-label">Autonomous / Автономно</span></div>
+              <div className="stat"><span className="stat-num">24/7</span><span className="stat-label">Autonomous</span></div>
             </div>
           </Reveal>
         </div>
@@ -335,19 +348,16 @@ export default function Index() {
       <section className="ams-section" id="section-1">
         <div className="ams-container">
           <Reveal>
-            <div className="section-label"><TriLang text={CONTENT.about.label} /></div>
-            <h2 className="section-title">{CONTENT.about.title.ru}</h2>
-            <p className="section-title-sub">{CONTENT.about.title.en} / {CONTENT.about.title.hy}</p>
+            <div className="section-label"><T t={CONTENT.about.label} lang={lang} /></div>
+            <h2 className="section-title"><T t={CONTENT.about.title} lang={lang} /></h2>
           </Reveal>
           <div className="about-grid">
             {CONTENT.about.items.map((item, i) => (
               <Reveal key={i} delay={i * 120}>
                 <div className="about-card">
                   <div className="about-icon">{item.icon}</div>
-                  <div className="about-card-title">{item.ru}</div>
-                  <div className="about-card-title-sub">{item.en} / {item.hy}</div>
-                  <p className="about-card-desc">{item.descRu}</p>
-                  <p className="about-card-desc muted">{item.descEn}</p>
+                  <div className="about-card-title"><T t={item.title} lang={lang} /></div>
+                  <p className="about-card-desc"><T t={item.desc} lang={lang} /></p>
                 </div>
               </Reveal>
             ))}
@@ -359,9 +369,8 @@ export default function Index() {
       <section className="ams-section ams-section-dark" id="section-2">
         <div className="ams-container">
           <Reveal>
-            <div className="section-label"><TriLang text={CONTENT.services.label} /></div>
-            <h2 className="section-title">{CONTENT.services.title.ru}</h2>
-            <p className="section-title-sub">{CONTENT.services.title.en} / {CONTENT.services.title.hy}</p>
+            <div className="section-label"><T t={CONTENT.services.label} lang={lang} /></div>
+            <h2 className="section-title"><T t={CONTENT.services.title} lang={lang} /></h2>
           </Reveal>
           <div className="services-list">
             {CONTENT.services.items.map((item, i) => (
@@ -369,12 +378,10 @@ export default function Index() {
                 <div className="service-row">
                   <div className="service-num">{item.num}</div>
                   <div className="service-body">
-                    <div className="service-title">{item.ru}</div>
-                    <div className="service-title-sub">{item.en} / {item.hy}</div>
+                    <div className="service-title"><T t={item.title} lang={lang} /></div>
                   </div>
                   <div className="service-desc">
-                    <p>{item.descRu}</p>
-                    <p className="muted">{item.descEn}</p>
+                    <p><T t={item.desc} lang={lang} /></p>
                   </div>
                   <div className="service-arrow">→</div>
                 </div>
@@ -388,9 +395,8 @@ export default function Index() {
       <section className="ams-section" id="section-3">
         <div className="ams-container">
           <Reveal>
-            <div className="section-label"><TriLang text={CONTENT.steps.label} /></div>
-            <h2 className="section-title">{CONTENT.steps.title.ru}</h2>
-            <p className="section-title-sub">{CONTENT.steps.title.en} / {CONTENT.steps.title.hy}</p>
+            <div className="section-label"><T t={CONTENT.steps.label} lang={lang} /></div>
+            <h2 className="section-title"><T t={CONTENT.steps.title} lang={lang} /></h2>
           </Reveal>
           <div className="steps-grid">
             {CONTENT.steps.items.map((step, i) => (
@@ -398,10 +404,8 @@ export default function Index() {
                 <div className="step-card">
                   <div className="step-num">{step.num}</div>
                   <div className="step-line" />
-                  <div className="step-title">{step.ru}</div>
-                  <div className="step-title-sub">{step.en} / {step.hy}</div>
-                  <p className="step-desc">{step.descRu}</p>
-                  <p className="step-desc muted">{step.descEn}</p>
+                  <div className="step-title"><T t={step.title} lang={lang} /></div>
+                  <p className="step-desc"><T t={step.desc} lang={lang} /></p>
                 </div>
               </Reveal>
             ))}
@@ -413,19 +417,16 @@ export default function Index() {
       <section className="ams-section ams-section-dark" id="section-4">
         <div className="ams-container">
           <Reveal>
-            <div className="section-label"><TriLang text={CONTENT.advantages.label} /></div>
-            <h2 className="section-title">{CONTENT.advantages.title.ru}</h2>
-            <p className="section-title-sub">{CONTENT.advantages.title.en} / {CONTENT.advantages.title.hy}</p>
+            <div className="section-label"><T t={CONTENT.advantages.label} lang={lang} /></div>
+            <h2 className="section-title"><T t={CONTENT.advantages.title} lang={lang} /></h2>
           </Reveal>
           <div className="adv-grid">
             {CONTENT.advantages.items.map((item, i) => (
               <Reveal key={i} delay={i * 120}>
                 <div className="adv-card">
                   <div className="adv-idx">0{i + 1}</div>
-                  <h3 className="adv-title">{item.ru}</h3>
-                  <div className="adv-title-sub">{item.en} / {item.hy}</div>
-                  <p className="adv-desc">{item.descRu}</p>
-                  <p className="adv-desc muted">{item.descEn}</p>
+                  <h3 className="adv-title"><T t={item.title} lang={lang} /></h3>
+                  <p className="adv-desc"><T t={item.desc} lang={lang} /></p>
                 </div>
               </Reveal>
             ))}
@@ -438,19 +439,17 @@ export default function Index() {
         <div className="cta-glow" aria-hidden />
         <div className="ams-container cta-inner">
           <Reveal>
-            <h2 className="cta-title">{CONTENT.cta.title.ru}</h2>
-            <p className="cta-title-sub">{CONTENT.cta.title.en} / {CONTENT.cta.title.hy}</p>
+            <h2 className="cta-title"><T t={CONTENT.cta.title} lang={lang} /></h2>
           </Reveal>
-          <Reveal delay={120}>
-            <p className="cta-desc">{CONTENT.cta.desc.ru}</p>
-            <p className="cta-desc muted">{CONTENT.cta.desc.en}</p>
+          <Reveal delay={100}>
+            <p className="cta-desc"><T t={CONTENT.cta.desc} lang={lang} /></p>
           </Reveal>
-          <Reveal delay={240}>
+          <Reveal delay={220}>
             <div className="cta-form">
-              <input className="cta-input" type="text" placeholder="Ваше имя / Your name / Ձեր անունը" />
-              <input className="cta-input" type="tel" placeholder="+7 / +374 / телефон" />
+              <input className="cta-input" type="text" placeholder={CONTENT.cta.namePlaceholder[lang]} />
+              <input className="cta-input" type="tel" placeholder={CONTENT.cta.phonePlaceholder[lang]} />
               <button className="btn-primary btn-large">
-                {CONTENT.cta.btn.ru} / {CONTENT.cta.btn.en}
+                <T t={CONTENT.cta.btn} lang={lang} />
                 <span className="btn-arrow">→</span>
               </button>
             </div>
@@ -465,8 +464,7 @@ export default function Index() {
             <span className="logo-mark">▲</span>
             <span className="logo-text">AMS</span>
           </div>
-          <div className="footer-copy">{CONTENT.footer.copy}</div>
-          <div className="footer-tagline">Autonomous Mobile Systems / Ինքնավար Շարժական Համակարգեր</div>
+          <div className="footer-copy"><T t={CONTENT.footer.copy} lang={lang} /></div>
         </div>
       </footer>
     </div>

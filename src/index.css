@@ -758,6 +758,38 @@ body {
   font-family: var(--ams-mono);
 }
 
+/* ─── Lang Switcher ─── */
+.lang-switcher {
+  display: flex;
+  align-items: center;
+  background: var(--ams-surface);
+  border: 1px solid var(--ams-border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.lang-btn {
+  padding: 6px 12px;
+  background: transparent;
+  border: none;
+  color: var(--ams-muted);
+  font-family: var(--ams-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition:
+    color 0.2s,
+    background 0.2s;
+}
+.lang-btn:hover {
+  color: var(--ams-white);
+}
+.lang-btn.active {
+  background: var(--ams-neon);
+  color: var(--ams-black);
+  font-weight: 700;
+}
+
 /* ─── Responsive ─── */
 @media (max-width: 900px) {
   .about-grid {
